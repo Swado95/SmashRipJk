@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	private bool isGrounded;
 
-	private bool leftWall;
-	private bool rightWall;
+	public bool leftWall;
+	public bool rightWall;
 	private float lastTimeWallJump;
 
 	void Start () {
@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour {
 	
 	void FixedUpdate () {
 
-		if (Input.GetAxis ("Horizontal") != 0 && !leftWall && !rightWall && Time.time - lastTimeWallJump > wallJumpDelay) {
+		if (Input.GetAxis ("Horizontal") != 0  && Time.time - lastTimeWallJump > wallJumpDelay) {
 			rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
 		}
 
@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour {
 			rb2d.AddForce(new Vector2(0, jumpF));
         	isGrounded = false;
         }
+
 
 		if(leftWall && Input.GetButtonDown("Jump")){
 			rb2d.AddForce(new Vector2(200, jumpF));
@@ -39,33 +40,28 @@ public class PlayerController : MonoBehaviour {
 
 		if(rightWall && Input.GetButtonDown("Jump")){
 			rb2d.AddForce(new Vector2(-200, jumpF));
-			leftWall = false;
+			rightWall = false;
 			lastTimeWallJump = Time.time;
 		}
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-		if (col.gameObject.tag.Equals("Ground")) {
+        if (col.gameObject.tag.Equals("Ground")) {
             isGrounded = true;
         }
 
-		if (col.gameObject.tag.Equals ("LeftWall")) {
-			leftWall = true;
-		}
-
-		if (col.gameObject.tag.Equals ("RightWall")) {
-			rightWall = true;
-		}
+        if (col.gameObject.tag.Equals("Wall") && col.transform.position.x > transform.position.x)
+        {
+            rightWall = true;
+        }
+        else if (col.gameObject.tag.Equals("Wall") && col.transform.position.x < transform.position.x)
+        {
+            leftWall = true;
+        }
+        else
+        {
+            leftWall = false;
+            rightWall = false;
+        }
     }
-
-	void OnCollisionExit2D(Collision2D col){
-
-		if(col.gameObject.tag.Equals("LeftWall")){
-			leftWall = false;
-		}
-
-		if(col.gameObject.tag.Equals("RightWall")){
-			rightWall = false;
-		}
-	}
 }
