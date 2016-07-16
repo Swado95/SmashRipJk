@@ -22,18 +22,19 @@ public class PlayerController : MonoBehaviour {
 	
 	void FixedUpdate () {
 
-		Debug.Log ("left: " + leftWall);
+		if (Input.GetAxis("Horizontal") < 0  && !leftWall && Time.time - lastTimeWallJump > wallJumpDelay) {
+			rb2d.velocity = new Vector2 (speed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
+		}
 
-		if (Input.GetAxis ("Horizontal") != 0  && Time.time - lastTimeWallJump > wallJumpDelay) {
-			rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
+		if (Input.GetAxis("Horizontal") > 0  && !rightWall && Time.time - lastTimeWallJump > wallJumpDelay) {
+			rb2d.velocity = new Vector2 (speed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
 		}
 
         if (isGrounded && Input.GetButtonDown("Jump")) {
 			rb2d.AddForce(new Vector2(0, jumpF));
         	isGrounded = false;
         }
-
-
+			
 		if(leftWall && Input.GetButtonDown("Jump")){
 			rb2d.AddForce(new Vector2(200, jumpF));
 			leftWall = false;
