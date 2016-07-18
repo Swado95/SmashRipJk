@@ -1,0 +1,6 @@
+5.3.1f1:2.1.0.0
+StandaloneWindows
+C:/Users/SwadoLaptop/Desktop/UnityGD/Editor/Data/Managed/UnityEngine.dll
+C:/Users/SwadoLaptop/Desktop/UnityGD/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll
+C:/Users/SwadoLaptop/Desktop/UnityGD/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
+C:/Users/SwadoLaptop/Desktop/UnityGD/Editor/Data/Managed/UnityEditor.dll
