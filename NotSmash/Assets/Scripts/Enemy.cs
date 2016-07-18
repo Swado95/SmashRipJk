@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour {
         }
 	}
 
-    public void emyAttack(float dmg, float dmgMulti)
+    public void emyAttack(int dmg, int dmgMulti)
     {
         damage = dmg;
         damageMulti = dmgMulti;
