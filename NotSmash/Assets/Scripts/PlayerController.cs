@@ -19,10 +19,19 @@ public class PlayerController : MonoBehaviour {
 		rb2d = GetComponent<Rigidbody2D>();
 		rb2d.freezeRotation = true;
 	}
+<<<<<<< HEAD
 
     void FixedUpdate()
     {
 
+=======
+	
+	void FixedUpdate () {
+		
+		if (Input.GetAxis ("Horizontal") != 0 && Time.time - lastTimeWallJump > wallJumpDelay) {
+			rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
+		}
+>>>>>>> origin/master
 
         if (Input.GetAxis("Horizontal") != 0 && Time.time - lastTimeWallJump > wallJumpDelay)
         {
@@ -37,6 +46,7 @@ public class PlayerController : MonoBehaviour {
             {
                 rb2d.velocity = new Vector2(speed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
 
+<<<<<<< HEAD
             }
 
             if (isGrounded && Input.GetButtonDown("Jump"))
@@ -47,6 +57,12 @@ public class PlayerController : MonoBehaviour {
 
 
 
+=======
+        if (isGrounded && Input.GetButtonDown("Jump")) {
+			rb2d.AddForce(new Vector2(0, jumpF));
+        	isGrounded = false;
+        }			
+>>>>>>> origin/master
 
 
 

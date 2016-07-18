@@ -28,9 +28,13 @@ public class Enemy : MonoBehaviour {
             emyAiMovement(); 
         }
 
+<<<<<<< HEAD
     }
 
     public void emyAttack(int dmg, float dmgMulti)
+=======
+    public void emyAttack(int dmg, int dmgMulti)
+>>>>>>> origin/master
     {
         damage = dmg;
         damageMulti = dmgMulti;
