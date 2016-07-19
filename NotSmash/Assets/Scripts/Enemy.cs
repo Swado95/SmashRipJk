@@ -23,14 +23,14 @@ public class Enemy : MonoBehaviour {
 
         
 
-        if (emyAggro() == true)
+		if (isAggro)
         {
-            emyAiMovement(); 
+            Movement(); 
         }
 
     }
 
-    public void emyAttack(int dmg, float dmgMulti)
+    public void Attack(int dmg, float dmgMulti)
     {
         damage = dmg;
         damageMulti = dmgMulti;
@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour {
     }
 
     //__________________AI Movement_________________________
-    public void emyAiMovement()
+    public void Movement()
     {
 
         float dis = Vector2.Distance(target.transform.position, transform.position);
@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    public bool emyAggro()
+    public bool Aggro()
     {
         if (health != startHealth)
         {
