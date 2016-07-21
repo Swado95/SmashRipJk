@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour {
 
         RaycastHit2D bCast = Physics2D.CircleCast(transform.position, rad, Vector2.right);
 
-        if(bCast.transform.tag == "Player")
+		if(bCast.transform.tag.Equals("Player"))
         {
             //player health script   
         }        

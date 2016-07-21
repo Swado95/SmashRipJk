@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
 	public float speed = 5;
-    public float jumpF = 365;
+	public float jumpF = 365;
 	public float wallJumpDelay = .25f;
 
 	private Rigidbody2D rb2d;
@@ -14,68 +15,70 @@ public class PlayerController : MonoBehaviour {
 	public bool rightWall;
 	private float lastTimeWallJump;
 
-	void Start () {
-
-		rb2d = GetComponent<Rigidbody2D>();
+	void Start ()
+	{
+		rb2d = GetComponent<Rigidbody2D> ();
 		rb2d.freezeRotation = true;
 	}
 
-    void FixedUpdate()
-    {
+	void FixedUpdate ()
+	{
 
-        if (Input.GetAxis("Horizontal") != 0 && Time.time - lastTimeWallJump > wallJumpDelay)
-        {
-            rb2d.velocity = new Vector2(speed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
+		if (Time.time - lastTimeWallJump > wallJumpDelay) {
+			rb2d.velocity = new Vector2 (0, rb2d.velocity.y);
+		}
+		if (Input.GetAxis ("Horizontal") < 0 && !leftWall && Time.time - lastTimeWallJump > wallJumpDelay) {
+			rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
+		}
 
-            if (Input.GetAxis("Horizontal") < 0 && !leftWall && Time.time - lastTimeWallJump > wallJumpDelay)
-            {
-                rb2d.velocity = new Vector2(speed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
-            }
+		if (Input.GetAxis ("Horizontal") > 0 && !rightWall && Time.time - lastTimeWallJump > wallJumpDelay) {
+			rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
+		}
 
-            if (Input.GetAxis("Horizontal") > 0 && !rightWall && Time.time - lastTimeWallJump > wallJumpDelay)
-            {
-                rb2d.velocity = new Vector2(speed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
+		if (isGrounded && Input.GetButtonDown ("Jump")) {
+			rb2d.AddForce (new Vector2 (0, jumpF));
+			isGrounded = false;
+		}
 
-            }
+		if (leftWall && Input.GetButtonDown ("Jump")) {
+			rb2d.AddForce (new Vector2 (200, jumpF));
+			rb2d.gravityScale = 1;
+			leftWall = false;
+			lastTimeWallJump = Time.time;
+		}
 
-            if (isGrounded && Input.GetButtonDown("Jump"))
-            {
-                rb2d.AddForce(new Vector2(0, jumpF));
-                isGrounded = false;
-            }
+		if (rightWall && Input.GetButtonDown ("Jump")) {
+			rb2d.AddForce (new Vector2 (-200, jumpF));
+			rb2d.gravityScale = 1;
+			rightWall = false;
+			lastTimeWallJump = Time.time;
+		}
+	}
 
-            if (leftWall && Input.GetButtonDown("Jump"))
-            {
-                rb2d.AddForce(new Vector2(200, jumpF));
-                leftWall = false;
-                lastTimeWallJump = Time.time;
-            }
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		if (col.gameObject.tag.Equals ("Ground")) {
+			isGrounded = true;
+		}
 
-            if (rightWall && Input.GetButtonDown("Jump"))
-            {
-                rb2d.AddForce(new Vector2(-200, jumpF));
-                rightWall = false;
-                lastTimeWallJump = Time.time;
-            }
-        }
-    }
-    void OnCollisionEnter2D(Collision2D col) {
-        if (col.gameObject.tag.Equals("Ground")) {
-            isGrounded = true;
-        }
+		if (col.gameObject.tag.Equals ("Wall")) {
+			
+			rb2d.gravityScale = .5f;
+			rightWall = col.transform.position.x > transform.position.x ? true : false;
+			leftWall = col.transform.position.x > transform.position.x ? false : true;
+			if(rb2d.velocity.y > 0){
+				rb2d.velocity = new Vector2 (rb2d.velocity.x, 0);
+			}
 
-        if (col.gameObject.tag.Equals("Wall") && col.transform.position.x > transform.position.x)
-        {
-            rightWall = true;
-        }
-        else if (col.gameObject.tag.Equals("Wall") && col.transform.position.x < transform.position.x)
-        {
-            leftWall = true;
-        }
-        else
-        {
-            leftWall = false;
-            rightWall = false;
-        }
-    }
+		}
+	}
+
+	void OnCollisionExit2D (Collision2D col){
+
+		if (col.gameObject.tag.Equals ("Wall")) {
+			rb2d.gravityScale = 1;
+			leftWall = false;
+			rightWall = false;
+		}
+	}
 }
