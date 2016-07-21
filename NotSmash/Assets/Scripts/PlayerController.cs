@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate()
     {
 
-
         if (Input.GetAxis("Horizontal") != 0 && Time.time - lastTimeWallJump > wallJumpDelay)
         {
             rb2d.velocity = new Vector2(speed * Input.GetAxis("Horizontal"), rb2d.velocity.y);
@@ -44,11 +43,6 @@ public class PlayerController : MonoBehaviour {
                 rb2d.AddForce(new Vector2(0, jumpF));
                 isGrounded = false;
             }
-
-
-
-
-
 
             if (leftWall && Input.GetButtonDown("Jump"))
             {
