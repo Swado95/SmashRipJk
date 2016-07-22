@@ -47,13 +47,26 @@ public class Enemy : MonoBehaviour {
     //__________________AI Movement_________________________
     void Movement()
 	{
-		rb2d.velocity = new Vector2(speed * (transform.position.x < target.transform.position.x ? 1 : -1), rb2d.velocity.y);
+        float dis = Vector2.Distance(target.transform.position, transform.position);
+
+        if (dis < 1)
+        {
+            rb2d.velocity = new Vector2(0, rb2d.velocity.y);
+        }
+        else
+        {
+            rb2d.velocity = new Vector2(speed * (transform.position.x < target.transform.position.x ? 1 : -1), rb2d.velocity.y);
+        }
+
+        
+
+
 
         //enemy only jumps when near target and target is higher then enemy
-		float dis = Vector2.Distance(target.transform.position, transform.position);
+		
         if (dis < 10 && (target.transform.position.y > transform.position.y + 5) && tStamp < Time.time)
         {
-            transform.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jForce);
+            rb2d.AddForce(Vector2.up * jForce);
             tStamp = Time.time + 3;
         }
     }
