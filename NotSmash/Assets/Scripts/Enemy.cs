@@ -12,17 +12,25 @@ public class Enemy : MonoBehaviour {
 
 	private Rigidbody2D rb2d;
 	private GameObject target;
-    private float tStamp = 0;
+    private float jumpCol = 0;
+    private float attackCol = 0;
     private int startHealth = 0;
+    private ParticleSystem par;
+
 
     void Start(){
 
         startHealth = health;
 		rb2d = GetComponent<Rigidbody2D>();
 		target = GameObject.FindGameObjectWithTag("Player");
+        par = GetComponent<ParticleSystem>();
+        
     }
 
 	void FixedUpdate () {
+
+        Attack(5, 1);
+
 
 		if (isAggro)
         {
@@ -30,19 +38,30 @@ public class Enemy : MonoBehaviour {
         }
     }
 
+
+
+
+
     void Attack(int dmg, float dmgMulti)
     {
-        damage = dmg;
-        damageMulti = dmgMulti;
+        
+
         float rad = 1;
 
         RaycastHit2D bCast = Physics2D.CircleCast(transform.position, rad, Vector2.zero);
 
-		if(bCast.transform.tag.Equals("Player"))
+		if(bCast.collider != null && bCast.collider.tag.Equals("Player") && attackCol < Time.time)
         {
-            //player health script   
+            target.GetComponent<PlayerController>().TakeDamage(dmg, Vector2.zero, 0);
+            Debug.Log(target.GetComponent<PlayerController>().health);
+            par.Play();
+            attackCol = Time.time + 3;
         }        
     }
+
+
+
+
 
     //__________________AI Movement_________________________
     void Movement()
@@ -60,10 +79,10 @@ public class Enemy : MonoBehaviour {
 
         //enemy only jumps when near target and target is higher then enemy
 		
-        if (dis < 10 && (target.transform.position.y > transform.position.y + 5) && tStamp < Time.time)
+        if (dis < 10 && (target.transform.position.y > transform.position.y + 5) && jumpCol < Time.time)
         {
             rb2d.AddForce(Vector2.up * jForce);
-            tStamp = Time.time + 3;
+            jumpCol = Time.time + 3;
         }
     }
 }
