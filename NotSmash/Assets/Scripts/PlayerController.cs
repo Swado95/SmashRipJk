@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
-	public float health = 100;
+	public int health = 100;
 	public float speed = 5;
 	public float jumpF = 365;
 	public float wallJumpDelay = .25f;
+	public Text uIDisplay;
+
+	private int startHealth;
+	private float baseSpeed;
+	private float baseJumpF;
 
 	private Rigidbody2D rb2d;
 	private bool isGrounded;
@@ -19,14 +25,20 @@ public class PlayerController : MonoBehaviour
 	private float timeOfStun;
 	private float stunDuration;
 
-	void Start ()
-	{
+	void Start () {
+
+		startHealth = health;
+     	baseSpeed = speed;
+		baseJumpF = jumpF;
+
 		rb2d = GetComponent<Rigidbody2D> ();
 		rb2d.freezeRotation = true;
+
+		uIDisplay.text = health + " / " + startHealth + " HP";
 	}
 
-	void FixedUpdate ()
-	{
+	void FixedUpdate () {
+		
 		if (!stunned) {
 			if (Time.time - lastTimeWallJump > wallJumpDelay) {
 				rb2d.velocity = new Vector2 (0, rb2d.velocity.y);
@@ -57,8 +69,13 @@ public class PlayerController : MonoBehaviour
 				rightWall = false;
 				lastTimeWallJump = Time.time;
 			}
+
+			if (Input.GetMouseButtonDown(0)){
+				GetComponent<PlayerAttack> ().Attack ();
+			}
+
 		} else {
-			stunned = Time.time - timeOfStun > stunDuration ? false : true;
+			stunned = Time.time - timeOfStun < stunDuration;
 		}
 	}
 
@@ -72,6 +89,8 @@ public class PlayerController : MonoBehaviour
 			this.stunDuration = stunDuration;
 			stunned = true;
 		}
+
+		uIDisplay.text = health + " / " + startHealth + " HP";
 	}
 
 	void OnCollisionEnter2D (Collision2D col)
