@@ -1,3 +1,3 @@
 # SmashRipJk
 
-is a cnacer game with cancer code
+is a cancer game with cancer code
