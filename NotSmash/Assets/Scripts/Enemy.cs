@@ -34,9 +34,9 @@ public class Enemy : MonoBehaviour {
     {
         damage = dmg;
         damageMulti = dmgMulti;
-        float rad = 1.0f;
+        float rad = 1;
 
-        RaycastHit2D bCast = Physics2D.CircleCast(transform.position, rad, Vector2.right);
+        RaycastHit2D bCast = Physics2D.CircleCast(transform.position, rad, Vector2.zero);
 
 		if(bCast.transform.tag.Equals("Player"))
         {
@@ -47,20 +47,16 @@ public class Enemy : MonoBehaviour {
     //__________________AI Movement_________________________
     void Movement()
 	{
-        float dis = Vector2.Distance(target.transform.position, transform.position);
+		float dis = Mathf.Abs(target.transform.position.x - transform.position.x);
 
-        if (dis < 1)
+        if (dis < .1f)
         {
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
         }
         else
         {
-            rb2d.velocity = new Vector2(speed * (transform.position.x < target.transform.position.x ? 1 : -1), rb2d.velocity.y);
+           	rb2d.velocity = new Vector2(speed * (transform.position.x < target.transform.position.x ? 1 : -1), rb2d.velocity.y);
         }
-
-        
-
-
 
         //enemy only jumps when near target and target is higher then enemy
 		
