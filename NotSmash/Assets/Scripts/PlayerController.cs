@@ -8,9 +8,10 @@ public class PlayerController : MonoBehaviour
 	public float speed = 5;
 	public float jumpF = 365;
 	public float wallJumpDelay = .25f;
-	public Text uIDisplay;
 
-	private int startHealth;
+    private Text uIDisplay;
+
+    private int startHealth;
 	private float baseSpeed;
 	private float baseJumpF;
 
@@ -24,6 +25,7 @@ public class PlayerController : MonoBehaviour
 	private bool stunned;
 	private float timeOfStun;
 	private float stunDuration;
+    
 
 	void Start () {
 
@@ -33,13 +35,17 @@ public class PlayerController : MonoBehaviour
 
 		rb2d = GetComponent<Rigidbody2D> ();
 		rb2d.freezeRotation = true;
+        uIDisplay = GameObject.Find("HealthMeter").GetComponent<Text>();
+        
 
-		uIDisplay.text = health + " / " + startHealth + " HP";
+        SetHealthText();
 	}
 
 	void FixedUpdate () {
-		
-		if (!stunned) {
+
+        SetHealthText();
+
+        if (!stunned) {
 			if (Time.time - lastTimeWallJump > wallJumpDelay) {
 				rb2d.velocity = new Vector2 (0, rb2d.velocity.y);
 			}
@@ -77,7 +83,8 @@ public class PlayerController : MonoBehaviour
 		} else {
 			stunned = Time.time - timeOfStun < stunDuration;
 		}
-	}
+        
+    }
 
 	public void TakeDamage(int damage, Vector2 knockback, float stunDuration){
 
@@ -90,12 +97,11 @@ public class PlayerController : MonoBehaviour
 			stunned = true;
 		}
 
-		uIDisplay.text = health + " / " + startHealth + " HP";
 	}
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
-		if (col.gameObject.tag.Equals ("Ground")) {
+		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
 			isGrounded = true;
 		}
 
@@ -118,8 +124,13 @@ public class PlayerController : MonoBehaviour
 			rightWall = false;
 		}
 
-		if (col.gameObject.tag.Equals ("Ground")) {
+		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
 			isGrounded = false;
 		}
 	}
+
+    void SetHealthText ()
+    {
+        uIDisplay.text = health + " / " + startHealth + " HP";
+    }
 }
