@@ -15,16 +15,14 @@ public class Enemy : MonoBehaviour {
     private float jumpCol = 0;
     private float attackCol = 0;
     private int startHealth = 0;
-    private ParticleSystem par;
+    private BoxCollider2D col2d;
 
-
-    void Start(){
+    void Start() {
 
         startHealth = health;
-		rb2d = GetComponent<Rigidbody2D>();
-		target = GameObject.FindGameObjectWithTag("Player");
-        par = GetComponent<ParticleSystem>();
-        
+        rb2d = GetComponent<Rigidbody2D>();
+        target = GameObject.FindGameObjectWithTag("Player");
+        col2d = GetComponent<BoxCollider2D>();
     }
 
 	void FixedUpdate () {
@@ -46,7 +44,7 @@ public class Enemy : MonoBehaviour {
     {
         
 
-        float rad = 1;
+        float rad = 1.5f;
 
         RaycastHit2D bCast = Physics2D.CircleCast(transform.position, rad, Vector2.zero);
 
@@ -54,7 +52,6 @@ public class Enemy : MonoBehaviour {
         {
             target.GetComponent<PlayerController>().TakeDamage(dmg, Vector2.zero, 0);
             Debug.Log(target.GetComponent<PlayerController>().health);
-            par.Play();
             attackCol = Time.time + 3;
         }        
     }
@@ -68,7 +65,7 @@ public class Enemy : MonoBehaviour {
 	{
 		float dis = Mathf.Abs(target.transform.position.x - transform.position.x);
 
-        if (dis < .1f)
+        if (dis < col2d.size.x / 2 + 1.6) 
         {
             rb2d.velocity = new Vector2(0, rb2d.velocity.y);
         }
