@@ -2,10 +2,10 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\PlayerController.cs">
     <Files>
+      <File FileName="Assets\Scripts\Enemy.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\PlayerAttack.cs" Line="13" Column="8" />
-      <File FileName="Assets\Scripts\MeleeAttack.cs" Line="9" Column="40" />
-      <File FileName="Assets\Scripts\PlayerController.cs" Line="10" Column="36" />
-      <File FileName="Assets\Scripts\Enemy.cs" Line="16" Column="33" />
+      <File FileName="Assets\Scripts\MeleeAttack.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="89" Column="4" />
       <File FileName="Assets\Scripts\CameraFollow.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>

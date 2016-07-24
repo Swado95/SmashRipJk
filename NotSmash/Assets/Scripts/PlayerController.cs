@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 		baseJumpF = jumpF;
 
 		rb2d = GetComponent<Rigidbody2D> ();
-		rb2d.freezeRotation = true;
+//		rb2d.freezeRotation = true;
         uIDisplay = GameObject.Find("HealthMeter").GetComponent<Text>();
         
 
@@ -83,7 +83,10 @@ public class PlayerController : MonoBehaviour
 		} else {
 			stunned = Time.time - timeOfStun < stunDuration;
 		}
-        
+
+		if(transform.eulerAngles.z > 45 && !(transform.eulerAngles.z > 315)){
+			transform.eulerAngles = new Vector3(0, 0, 45);
+		}
     }
 
 	public void TakeDamage(int damage, Vector2 knockback, float stunDuration){
@@ -103,6 +106,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
 			isGrounded = true;
+			rb2d.freezeRotation = false;
 		}
 
 		if (col.gameObject.tag.Equals ("Wall")) {
@@ -126,6 +130,7 @@ public class PlayerController : MonoBehaviour
 
 		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
 			isGrounded = false;
+			rb2d.freezeRotation = true;
 		}
 	}
 
