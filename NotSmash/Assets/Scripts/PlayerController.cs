@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
 	private float baseJumpF;
 
 	private Rigidbody2D rb2d;
-	private bool isGrounded;
 
 	private Animator anim;
 	private bool attacking;
@@ -66,11 +65,24 @@ public class PlayerController : MonoBehaviour
 				anim.SetInteger("animState", 1);
 				transform.localScale = new Vector3 (1, 1, 1);
 			}
-				
-			if (isGrounded && Input.GetButtonDown ("Jump")) {
-				rb2d.AddForce (new Vector2 (0, jumpF));
-				isGrounded = false;
+
+			Debug.DrawLine(new Vector2(transform.position.x - .7f, transform.position.y - .9f), 
+				new Vector2(transform.position.x + .3f, transform.position.y - .9f), Color.red);
+
+			if(Input.GetButtonDown("Jump")){
+				RaycastHit2D hit = Physics2D.Raycast (new Vector2(transform.position.x - .7f, transform.position.y - .9f), 
+					new Vector2(1, 0));
+
+				if(hit.collider != null && (hit.collider.tag.Equals("Ground") || hit.collider.tag.Equals("Enemy"))){
+					rb2d.AddForce (new Vector2 (0, jumpF));
+					Debug.Log("grounf");
+				}
 			}
+
+//			if (isGrounded && Input.GetButtonDown ("Jump")) {
+//				rb2d.AddForce (new Vector2 (0, jumpF));
+//				isGrounded = false;
+//			}
 
 			if (leftWall && Input.GetButtonDown ("Jump")) {
 				rb2d.AddForce (new Vector2 (200, jumpF));
@@ -88,7 +100,6 @@ public class PlayerController : MonoBehaviour
 
 			if (Input.GetMouseButtonDown(0)){
 				GetComponent<PlayerAttack> ().Attack ();
-//				anim.SetInteger("animState", 2);
 			}
 
 		} else {
@@ -116,10 +127,6 @@ public class PlayerController : MonoBehaviour
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
-		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
-			isGrounded = true;
-//			rb2d.freezeRotation = false;
-		}
 
 		if (col.gameObject.tag.Equals ("Wall")) {
 			
@@ -138,11 +145,6 @@ public class PlayerController : MonoBehaviour
 			rb2d.gravityScale = 1;
 			leftWall = false;
 			rightWall = false;
-		}
-
-		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
-			isGrounded = false;
-//			rb2d.freezeRotation = true;
 		}
 	}
 
