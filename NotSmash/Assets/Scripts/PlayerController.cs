@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
 				anim.SetInteger("animState", 1);
 				transform.localScale = new Vector3 (1, 1, 1);
 			}
-
+				
 			if (isGrounded && Input.GetButtonDown ("Jump")) {
 				rb2d.AddForce (new Vector2 (0, jumpF));
 				isGrounded = false;

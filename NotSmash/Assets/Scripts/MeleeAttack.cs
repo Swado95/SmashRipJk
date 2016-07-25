@@ -32,7 +32,7 @@ public class MeleeAttack : PlayerAttack {
 
 	void OnTriggerEnter2D(Collider2D col){
 
-		Debug.Log("hit an enemy");
+//		Debug.Log("hit an enemy");
 
 		if(col.tag.Equals("Enemy")){
 		}
