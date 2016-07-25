@@ -9,13 +9,18 @@ public class Enemy : MonoBehaviour {
 	public float damageMulti = 1;
 	public int speed = 4;
     public int jForce = 5;
+    public float attackRate = 3;
 
-	private Rigidbody2D rb2d;
+
+
+    private Rigidbody2D rb2d;
 	private GameObject target;
     private float jumpCol = 0;
     private float attackCol = 0;
     private int startHealth = 0;
     private BoxCollider2D col2d;
+    
+
 
     void Start() {
 
@@ -43,7 +48,6 @@ public class Enemy : MonoBehaviour {
     void Attack(int dmg, float dmgMulti)
     {
         
-
         float rad = 1.5f;
 
         RaycastHit2D bCast = Physics2D.CircleCast(transform.position, rad, Vector2.zero);
@@ -52,7 +56,7 @@ public class Enemy : MonoBehaviour {
         {
             target.GetComponent<PlayerController>().TakeDamage(dmg, Vector2.zero, 0);
             Debug.Log(target.GetComponent<PlayerController>().health);
-            attackCol = Time.time + 3;
+            attackCol = Time.time + attackRate;
         }        
     }
 
