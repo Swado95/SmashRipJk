@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody2D rb2d;
 	private bool isGrounded;
 
+	private Animator anim;
+	private bool attacking;
+
 	private bool leftWall;
 	private bool rightWall;
 	private float lastTimeWallJump;
@@ -34,27 +37,34 @@ public class PlayerController : MonoBehaviour
 		baseJumpF = jumpF;
 
 		rb2d = GetComponent<Rigidbody2D> ();
-//		rb2d.freezeRotation = true;
+		rb2d.freezeRotation = true;
         uIDisplay = GameObject.Find("HealthMeter").GetComponent<Text>();
         
+		anim = GetComponent<Animator> ();
 
         SetHealthText();
 	}
 
 	void FixedUpdate () {
 
-        SetHealthText();
-
         if (!stunned) {
+
+			anim.SetInteger("animState", 0);
+
 			if (Time.time - lastTimeWallJump > wallJumpDelay) {
 				rb2d.velocity = new Vector2 (0, rb2d.velocity.y);
 			}
-			if (Input.GetAxis ("Horizontal") < 0 && !leftWall && Time.time - lastTimeWallJump > wallJumpDelay) {
-				rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
-			}
 
-			if (Input.GetAxis ("Horizontal") > 0 && !rightWall && Time.time - lastTimeWallJump > wallJumpDelay) {
+			if (Input.GetKey ("a") && !leftWall && Time.time - lastTimeWallJump > wallJumpDelay) {
 				rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
+				anim.SetInteger("animState", 1);
+				transform.localScale = new Vector3 (-1, 1, 1);
+			}
+	
+			if (Input.GetKey ("d") && !rightWall && Time.time - lastTimeWallJump > wallJumpDelay) {
+				rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
+				anim.SetInteger("animState", 1);
+				transform.localScale = new Vector3 (1, 1, 1);
 			}
 
 			if (isGrounded && Input.GetButtonDown ("Jump")) {
@@ -78,15 +88,16 @@ public class PlayerController : MonoBehaviour
 
 			if (Input.GetMouseButtonDown(0)){
 				GetComponent<PlayerAttack> ().Attack ();
+//				anim.SetInteger("animState", 2);
 			}
 
 		} else {
 			stunned = Time.time - timeOfStun < stunDuration;
 		}
 
-		if(transform.eulerAngles.z > 45 && !(transform.eulerAngles.z > 315)){
-			transform.eulerAngles = new Vector3(0, 0, 45);
-		}
+//		if(transform.eulerAngles.z > 45 && !(transform.eulerAngles.z > 315)){
+//			transform.eulerAngles = new Vector3(0, 0, 45);
+//		}
     }
 
 	public void TakeDamage(int damage, Vector2 knockback, float stunDuration){
@@ -100,13 +111,14 @@ public class PlayerController : MonoBehaviour
 			stunned = true;
 		}
 
+		SetHealthText ();
 	}
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
 		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
 			isGrounded = true;
-			rb2d.freezeRotation = false;
+//			rb2d.freezeRotation = false;
 		}
 
 		if (col.gameObject.tag.Equals ("Wall")) {
@@ -130,12 +142,11 @@ public class PlayerController : MonoBehaviour
 
 		if (col.gameObject.tag.Equals ("Ground") || col.gameObject.tag.Equals("Enemy")) {
 			isGrounded = false;
-			rb2d.freezeRotation = true;
+//			rb2d.freezeRotation = true;
 		}
 	}
 
-    void SetHealthText ()
-    {
+    void SetHealthText () {
         uIDisplay.text = health + " / " + startHealth + " HP";
     }
 }

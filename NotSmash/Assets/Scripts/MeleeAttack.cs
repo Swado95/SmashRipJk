@@ -12,9 +12,13 @@ public class MeleeAttack : PlayerAttack {
 
 	void FixedUpdate () {
 
-		if(timeOfStartAttack > timeOfEndAttack && Time.time - timeOfStartAttack > attackDuration){
-			timeOfEndAttack = Time.time;
-			bc2d.enabled = false;
+		if(timeOfStartAttack > timeOfEndAttack){
+			GetComponent<Animator>().SetInteger ("animState", 2);
+
+			if(Time.time - timeOfStartAttack > attackDuration){
+				timeOfEndAttack = Time.time;
+				bc2d.enabled = false;
+			}
 		}
 	}
 

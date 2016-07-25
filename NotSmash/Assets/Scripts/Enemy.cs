@@ -56,10 +56,6 @@ public class Enemy : MonoBehaviour {
         }        
     }
 
-
-
-
-
     //__________________AI Movement_________________________
     void Movement()
 	{
