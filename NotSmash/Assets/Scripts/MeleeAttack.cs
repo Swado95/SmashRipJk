@@ -6,7 +6,7 @@ public class MeleeAttack : PlayerAttack {
 	private BoxCollider2D bc2d;
 
 	void Start () {
-		bc2d = GetComponent<BoxCollider2D>();
+		bc2d = transform.FindChild("Fists").GetComponent<BoxCollider2D>();
 		bc2d.enabled = false;
 	}
 
