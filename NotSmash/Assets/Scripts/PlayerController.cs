@@ -58,32 +58,28 @@ public class PlayerController : MonoBehaviour
 				rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
 				anim.SetInteger("animState", 1);
 				transform.localScale = new Vector3 (-1, 1, 1);
+			
 			}
-	
+
 			if (Input.GetKey ("d") && !rightWall && Time.time - lastTimeWallJump > wallJumpDelay) {
 				rb2d.velocity = new Vector2 (speed * Input.GetAxis ("Horizontal"), rb2d.velocity.y);
 				anim.SetInteger("animState", 1);
 				transform.localScale = new Vector3 (1, 1, 1);
 			}
 
-			Debug.DrawLine(new Vector2(transform.position.x - .7f, transform.position.y - .9f), 
-				new Vector2(transform.position.x + .3f, transform.position.y - .9f), Color.red);
+//			Debug.DrawLine(new Vector2(transform.position.x - .7f, transform.position.y - .9f), 
+//				new Vector2(transform.position.x + .3f, transform.position.y - .9f), Color.red);
 
 			if(Input.GetButtonDown("Jump")){
 				RaycastHit2D hit = Physics2D.Raycast (new Vector2(transform.position.x - .7f, transform.position.y - .9f), 
-					new Vector2(1, 0));
+					Vector2.right, 1);
 
 				if(hit.collider != null && (hit.collider.tag.Equals("Ground") || hit.collider.tag.Equals("Enemy"))){
 					rb2d.AddForce (new Vector2 (0, jumpF));
-					Debug.Log("grounf");
+					Debug.Log ("Jump");
 				}
 			}
-
-//			if (isGrounded && Input.GetButtonDown ("Jump")) {
-//				rb2d.AddForce (new Vector2 (0, jumpF));
-//				isGrounded = false;
-//			}
-
+				
 			if (leftWall && Input.GetButtonDown ("Jump")) {
 				rb2d.AddForce (new Vector2 (200, jumpF));
 				rb2d.gravityScale = 1;
@@ -99,9 +95,13 @@ public class PlayerController : MonoBehaviour
 			}
 
 			if (Input.GetMouseButtonDown(0)){
-				GetComponent<PlayerAttack> ().Attack ();
+				GetComponent<MeleeAttack> ().Attack ();
 			}
 
+			if (Input.GetMouseButtonDown(1)){
+				GetComponent<RangedAttack> ().Attack ();
+			}
+				
 		} else {
 			stunned = Time.time - timeOfStun < stunDuration;
 		}
