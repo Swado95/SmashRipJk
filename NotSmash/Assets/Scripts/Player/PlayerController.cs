@@ -9,7 +9,8 @@ public class PlayerController : MonoBehaviour
 	public float jumpF = 365;
 	public float wallJumpDelay = .25f;
 
-	private Text uIDisplay;
+	private Text healthMeter;
+	private Text heightMeter;
 
 	private int startHealth;
 	private float baseSpeed;
@@ -36,8 +37,10 @@ public class PlayerController : MonoBehaviour
 
 		rb2d = GetComponent<Rigidbody2D> ();
 		rb2d.freezeRotation = true;
-		uIDisplay = GameObject.Find ("HealthMeter").GetComponent<Text> ();
-        
+
+		healthMeter = GameObject.Find ("Health Meter").GetComponent<Text> ();
+		heightMeter = GameObject.Find ("Height Meter").GetComponent<Text> ();
+
 		anim = GetComponent<Animator> ();
 
 		SetHealthText ();
@@ -52,6 +55,8 @@ public class PlayerController : MonoBehaviour
 		} else {
 			stunned = Time.time - timeOfStun < stunDuration;
 		}
+
+		heightMeter.text = "Height: " + Mathf.Round(transform.position.y);
 
 		//		if(transform.eulerAngles.z > 45 && !(transform.eulerAngles.z > 315)){
 		//			transform.eulerAngles = new Vector3(0, 0, 45);
@@ -149,6 +154,6 @@ public class PlayerController : MonoBehaviour
 	}
 
 	void SetHealthText () {
-		uIDisplay.text = health + " / " + startHealth + " HP";
+		healthMeter.text = health + " / " + startHealth + " HP";
 	}
 }
