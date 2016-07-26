@@ -28,7 +28,6 @@ public class Enemy : MonoBehaviour
     private float stunDuration;
     private bool stunned;
 
-
     void Start()
     {
 
@@ -37,13 +36,15 @@ public class Enemy : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player");
         col2d = GetComponent<BoxCollider2D>();
         aS = col2d.size.x * rb2d.transform.lossyScale.x;
+        
     }
+
+
 
     void FixedUpdate()
     {
 
         Attack(5, 1);
-
 
         if (isAggro)
         {
@@ -51,10 +52,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //________________________________AI attack____________________________________________________
+
     void Attack(int dmg, float dmgMulti)
     {
-
-        RaycastHit2D bCast = Physics2D.CircleCast(transform.position, (aS / 2) + attackDistance, Vector2.zero, (aS / 2) + attackDistance, ~8);
+        RaycastHit2D bCast = Physics2D.CircleCast(transform.position, (aS / 2) + attackDistance, Vector2.zero, (aS / 2) + 1 + attackDistance, 1 << 8);
 
         if (bCast.collider != null && bCast.collider.tag.Equals("Player") && attackCol < Time.time)
         {
@@ -68,9 +70,6 @@ public class Enemy : MonoBehaviour
     void Movement(bool fleeDis)
     {
         float dis = Mathf.Abs(target.transform.position.x - transform.position.x);
-
-        Debug.Log(aS + " " + dis);
-
 
 
 
