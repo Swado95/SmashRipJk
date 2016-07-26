@@ -3,13 +3,28 @@ using System.Collections;
 
 public class RangedAttack : PlayerAttack {
 
+	public float maxChargeTime = 3;
 	public float timeSpeedMultiplyer = 1;
 	public GameObject arrow;
+
+	private GameObject chargeBar;
+
+	void Start () {
+		chargeBar = transform.FindChild("Charge Bar").gameObject;
+	}
 
 	void FixedUpdate () {
 
 		if(timeOfStartAttack > timeOfEndAttack){
 			GetComponent<Animator>().SetInteger ("animState", 3);
+
+			float charge = Time.time - timeOfStartAttack;
+			if(charge > maxChargeTime){
+				charge = maxChargeTime;
+			}
+
+			chargeBar.transform.localPosition = new Vector3 (-1, .25f * charge - .75f, 0);
+			chargeBar.transform.localScale = new Vector3(1, 10.0f / 3.0f * charge, 1);
 		}
 	}
 
@@ -25,6 +40,7 @@ public class RangedAttack : PlayerAttack {
 		if (timeOfStartAttack > timeOfEndAttack) {
 			timeOfEndAttack = Time.time;
 			attackDuration = timeOfEndAttack - timeOfStartAttack;
+			chargeBar.transform.localScale = new Vector3(1, 0, 1);
 			Attack();
 		}
 	}
