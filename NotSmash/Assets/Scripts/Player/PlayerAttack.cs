@@ -9,8 +9,8 @@ public abstract class PlayerAttack : MonoBehaviour{
 	public float cooldown = .5f;
 	public float attackDuration = .25f;
 
-	public float timeOfStartAttack;
-	public float timeOfEndAttack;
+	protected float timeOfStartAttack;
+	protected float timeOfEndAttack;
 
 	public abstract void Attack();
 }

@@ -11,22 +11,24 @@ public class Enemy : MonoBehaviour
     public float damageMulti = 1;
     public int speed = 4;
     public int jForce = 5;
-    public float attackRate = 3;
+    public float attackCD = 3;
+	public  float jumpCD = 3;
     public float hugDistance = 1;
-    public float attackDistance = 1;
     public float runDistance = 1;
 
 
     private Rigidbody2D rb2d;
     private GameObject target;
-    private float jumpCol = 0;
-    private float attackCol = 0;
+    private float timeOfLastAttack;
+	private float timeOfLastJump;
     private int startHealth = 0;
     private BoxCollider2D col2d;
     private float aS = 1f;
     private float timeOfStun;
     private float stunDuration;
     private bool stunned;
+
+	private bool playerInRange = false;
 
     void Start()
     {
@@ -36,44 +38,36 @@ public class Enemy : MonoBehaviour
         target = GameObject.FindGameObjectWithTag("Player");
         col2d = GetComponent<BoxCollider2D>();
         aS = col2d.size.x * rb2d.transform.lossyScale.x;
-        
     }
-
-
 
     void FixedUpdate()
     {
 
-        Attack(5, 1);
+		Attack();
 
         if (isAggro)
         {
-            Movement(keepDistance);
+            Movement();
         }
     }
 
     //________________________________AI attack____________________________________________________
 
-    void Attack(int dmg, float dmgMulti)
+    void Attack()
     {
-        RaycastHit2D bCast = Physics2D.CircleCast(transform.position, (aS / 2) + attackDistance, Vector2.zero, (aS / 2) + 1 + attackDistance, 1 << 8);
-
-        if (bCast.collider != null && bCast.collider.tag.Equals("Player") && attackCol < Time.time)
-        {
-            target.GetComponent<PlayerController>().TakeDamage(dmg, Vector2.zero, 0);
+		if(playerInRange && Time.time - timeOfLastAttack > attackCD){
+            target.GetComponent<PlayerController>().TakeDamage(damage, Vector2.zero, 0);
             Debug.Log(target.GetComponent<PlayerController>().health);
-            attackCol = Time.time + attackRate;
+			timeOfLastAttack = Time.time;
         }
     }
 
     //__________________AI Movement_________________________
-    void Movement(bool fleeDis)
+    void Movement()
     {
         float dis = Mathf.Abs(target.transform.position.x - transform.position.x);
 
-
-
-        if (fleeDis == false)
+		if (keepDistance == false)
         {
             if (dis < aS + hugDistance)
             {
@@ -86,11 +80,10 @@ public class Enemy : MonoBehaviour
 
             //enemy only jumps when near target and target is higher then enemy
 
-            if (dis < 10 && (target.transform.position.y > transform.position.y + 5) && jumpCol < Time.time)
+			if (dis < 10 && (target.transform.position.y > transform.position.y + 5) && Time.time - timeOfLastJump > jumpCD)
             {
                 rb2d.AddForce(Vector2.up * jForce);
-                jumpCol = Time.time + 3;
-
+				timeOfLastJump = Time.time;
             }
         }
         else
@@ -101,7 +94,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                //if true go to -1 else go to 1                      V    V
+               	 									 //if true go to -1 else go to 1                      V    V
                 rb2d.velocity = new Vector2(speed * (transform.position.x > target.transform.position.x ? 1 : -1), rb2d.velocity.y);
             }
         }
@@ -121,6 +114,19 @@ public class Enemy : MonoBehaviour
             this.stunDuration = stunDuration;
             stunned = true;
         }
-
     }
+
+	void OnTriggerEnter2D (Collider2D col) {
+
+		if(col.tag.Equals("Player")){
+			playerInRange = true;
+		}
+	}
+
+	void OnTriggerExit2D (Collider2D col) {
+
+		if(col.tag.Equals("Player")){
+			playerInRange = false;
+		}
+	}
 }
