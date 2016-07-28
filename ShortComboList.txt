@@ -1,0 +1,33 @@
+N = Normal
+P = Power
+R = Ranged
+J = Jump
+
+0.5 max time between combo buttons
+
+function:
+the larger the combo the faster speed buff is
+
+power attacks do knockback
+
+power attacks are charged up by holding RMB
+
+if enemy is hit and player is in air, allow player to keep comboing 
+
+N + N + P = Spin(AOE damage)
+
+N + P + P = Short ranged Melee(Like Kirby)
+
+J + P = Vertical (top and bottom)
+
+J + N = Horizontal (you know)
+
+P + R = charged arrow
+
+
+
+J + P + P + N + P + P + R + N = fly
+
+
+
+P + N(+F) = powered range attack
