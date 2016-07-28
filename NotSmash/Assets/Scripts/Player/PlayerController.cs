@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 				
 		if (Input.GetButtonDown ("Jump")) {
 			RaycastHit2D hit = Physics2D.Raycast (new Vector2 (transform.position.x - .7f, transform.position.y - .9f), 
-				                    Vector2.right, 1);
+				                    Vector2.right, 1.5f);
 
 			if (hit.collider != null && (hit.collider.tag.Equals ("Ground") || hit.collider.tag.Equals ("Enemy"))) {
 				rb2d.AddForce (new Vector2 (0, jumpF));
@@ -143,9 +143,9 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if(col.gameObject.tag.Equals("Ground")){
-			transform.eulerAngles = col.transform.eulerAngles;
-		}
+//		if(col.gameObject.tag.Equals("Ground")){
+//			transform.eulerAngles = col.transform.eulerAngles;
+//		}
 	}
 
 	void OnCollisionExit2D (Collision2D col) {
