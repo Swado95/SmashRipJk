@@ -58,9 +58,9 @@ public class PlayerController : MonoBehaviour
 
 		heightMeter.text = "Height: " + Mathf.Round(transform.position.y);
 
-		//		if(transform.eulerAngles.z > 45 && !(transform.eulerAngles.z > 315)){
-		//			transform.eulerAngles = new Vector3(0, 0, 45);
-		//		}
+//		if(transform.eulerAngles.z > 45 && !(transform.eulerAngles.z > 315)){
+//				transform.eulerAngles = new Vector3(0, 0, 45);
+//		}
 	}
 
 	void Update () {
@@ -141,6 +141,10 @@ public class PlayerController : MonoBehaviour
 			if (rb2d.velocity.y > 0) {
 				rb2d.velocity = new Vector2 (rb2d.velocity.x, 0);
 			}
+		}
+
+		if(col.gameObject.tag.Equals("Ground")){
+			transform.eulerAngles = col.transform.eulerAngles;
 		}
 	}
 
