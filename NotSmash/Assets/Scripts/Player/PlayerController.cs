@@ -108,11 +108,11 @@ public class PlayerController : MonoBehaviour
 			GetComponent<MeleeAttack> ().Attack ();
 		}
 
-		if (Input.GetMouseButtonDown (1)) {
+		if (Input.GetKeyDown ("f")) {
 			GetComponent<RangedAttack> ().Charge ();
 		}
 
-		if (Input.GetMouseButtonUp (1)) {
+		if (Input.GetKeyUp ("f")) {
 			GetComponent<RangedAttack> ().Fire ();
 		}
 	}

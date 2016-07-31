@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\Player\MeleeAttack.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerAttack.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Player\PowerAttack.cs" />
      <Compile Include="Assets\Scripts\Player\RangedAttack.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
