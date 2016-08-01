@@ -115,6 +115,14 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetKeyUp ("f")) {
 			GetComponent<RangedAttack> ().Fire ();
 		}
+
+		if (Input.GetMouseButtonDown (1)) {
+			GetComponent<PowerAttack> ().Charge ();
+		}
+
+		if (Input.GetMouseButtonUp (1)) {
+			GetComponent<PowerAttack> ().Attack ();
+		}
 	}
 
 	public void TakeDamage (int damage, Vector2 knockback, float stunDuration) {
