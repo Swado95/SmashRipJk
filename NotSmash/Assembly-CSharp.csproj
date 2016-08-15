@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\Player\ComboGenAndDecoder.cs" />
      <Compile Include="Assets\Scripts\Player\ComboTree.cs" />
      <Compile Include="Assets\Scripts\Player\ComboTreeNode.cs" />
+     <Compile Include="Assets\Scripts\Player\HillWalking.cs" />
      <Compile Include="Assets\Scripts\Player\MeleeAttack.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerAttack.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerController.cs" />

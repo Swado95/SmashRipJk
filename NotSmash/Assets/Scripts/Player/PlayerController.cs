@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour
 		baseJumpF = jumpF;
 
 		rb2d = GetComponent<Rigidbody2D> ();
-		rb2d.freezeRotation = true;
 
 		healthMeter = GameObject.Find ("Health Meter").GetComponent<Text> ();
 		heightMeter = GameObject.Find ("Height Meter").GetComponent<Text> ();
