@@ -149,10 +149,6 @@ public class PlayerController : MonoBehaviour
 				rb2d.velocity = new Vector2 (rb2d.velocity.x, 0);
 			}
 		}
-
-//		if(col.gameObject.tag.Equals("Ground")){
-//			transform.eulerAngles = col.transform.eulerAngles;
-//		}
 	}
 
 	void OnCollisionExit2D (Collision2D col) {
